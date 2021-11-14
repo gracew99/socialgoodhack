@@ -7,10 +7,9 @@ import 'draft-js/dist/Draft.css';
 import axios from './axios';
 import { Container, Row, Col } from 'react-grid-system';
 import NewsFront from './NewsFront';
-import NewsBack from './NewsBack';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-
+import LibraryItem from '../src/Library';
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
 const mic = new SpeechRecognition()
 mic.continuous = true
@@ -28,6 +27,7 @@ var color3 = 'white';
 export default function Carousel() {
     const [isListening, setIsListening] = useState(false)
     const [note, setNote] = useState(null)
+    const [library, setLibrary] = useState([])
  
     useEffect(() => {
       handleListen()
@@ -76,21 +76,27 @@ export default function Carousel() {
       () => EditorState.createEmpty(),
     );
  
-    function logLength() {
-      console.log(newsArticles.length)
-      console.log(newsArticles)
-    }
+    // function logLength() {
+    //   console.log(newsArticles.length)
+    //   console.log(newsArticles)
+    // }
     function handleClick1(article) {
       MySwal.fire({
         title: <p>Hello World</p>,
-        footer: 'Copyright 2018',
+        footer: 'Copyright 2018',    
+
         didOpen: () => {
           // `MySwal` is a subclass of `Swal`
           //   with all the same instance & static methods
           MySwal.clickConfirm()
         }
       }).then(() => {
-        return MySwal.fire(<NewsBack newsArticle={article}></NewsBack>)
+        return MySwal.fire({
+          title: "Score: " + article.score,
+          text: article.description,
+          showConfirmButton: false,
+          footer: article.author + " " + article.source
+        })
       })
       
       // setIsFlipped1(prevState => (!prevState));
@@ -202,11 +208,23 @@ export default function Carousel() {
               })
             });
           }
+          if (e.currentIndex === 2) {
+            axios.get('/user/library/123')
+            .then((response) => {
+              // console.log(keyword)
+              // console.log(response.data.articles);
+              const getLibrary = response.data;
+              console.log(getLibrary)
+              console.log("lib done")
+              setLibrary(currLib => [...currLib, getLibrary])
+            })
+          }
+
       }
 
     return (
       // onTransitionRequest={onClick}
-      <AwesomeSlider onTransitionRequest={(e) => onClick(e)}> 
+      <AwesomeSlider onTransitionRequest={onClick}> 
         <div style={{backgroundColor: "#282c34"}}>
           <h1>Daily Journal</h1>
           <br/>
@@ -227,8 +245,9 @@ export default function Carousel() {
           <p>{note}</p>
           
         </div>
-        <div style={{backgroundColor: "#282c34"}} onClick={logLength}>
-          <h1>Today's Positive News Feed</h1>
+        
+        <div style={{backgroundColor: "#282c34"}}>
+          <h1 style={{marginBottom:"25px"}}>Today's Happy Feed</h1>
 
           {newsArticles && newsArticles.length >= 6 && <Container>
             <Row>
@@ -249,12 +268,55 @@ export default function Carousel() {
               </Col>
             </Row>
           </Container>}
-
+            
         </div>
-        
         <div style={{backgroundColor: "#282c34"}}>
+            <h1>Saved Media</h1>
+            {/* {console.log(library[0])}
+            {library[0] !== undefined && library[0].length > 0 &&  library[0].map(item => {
+              console.log("hUH");
+              return <LibraryItem newsArticle={item}></LibraryItem>;
+            })} */}
+            {library[0] !== undefined && library[0].length > 0 && <div style={{display: "flex", flexDirection: "column", width: "1000px"}}>
+              <div style={{display: "flex", flexDirection: "row",  width: "1000px", justifyContent:"space-between"}}>
+                
+                    {library[0].length >= 1 && Object.keys(library[0][0]).length !== 0 && <LibraryItem  newsArticle={library[0][0]}></LibraryItem>}
+                    {/* <br></br> */}
+                    {library[0].length >= 2 && Object.keys(library[0][1]).length !== 0  && <LibraryItem newsArticle={library[0][1]}></LibraryItem>}
+                    {/* <br></br> */}
+                    {library[0].length >= 3 && Object.keys(library[0][2]).length !== 0  &&<LibraryItem  newsArticle={library[0][2]}></LibraryItem>}
+              </div>
+              <br></br>
+              <div style={{display: "flex", flexDirection: "row", width: "1000px", justifyContent:"space-between"}}>
 
-        </div>
+                    {library[0].length >= 4 && Object.keys(library[0][3]).length !== 0  && <LibraryItem newsArticle={library[0][3]}></LibraryItem>}
+                    {/* <br></br> */}
+                    {library[0].length >= 5 && Object.keys(library[0][4]).length !== 0  &&<LibraryItem newsArticle={library[0][4]}></LibraryItem>}
+                    {library[0].length >= 6 && Object.keys(library[0][5]).length !== 0  &&<LibraryItem  newsArticle={library[0][5]}></LibraryItem>}
+
+              </div>
+            </div>}
+            {/* <div style={{color: "pink"}}>
+              {library[0] !== undefined && <Row>
+                <Col sm={4}>
+                    {library[0].length >= 1 && Object.keys(library[0][0]).length !== 0 && <LibraryItem  newsArticle={library[0][0]}></LibraryItem>}
+                    <br></br>
+                    {library[0].length >= 4 && Object.keys(library[0][3]).length !== 0  && <LibraryItem newsArticle={library[0][3]}></LibraryItem>}
+                </Col>
+                <Col sm={4}>
+                    {library[0].length >= 2 && Object.keys(library[0][1]).length !== 0  && <LibraryItem newsArticle={library[0][1]}></LibraryItem>}
+                    <br></br>
+                    {library[0].length >= 5 && Object.keys(library[0][4]).length !== 0  &&<LibraryItem newsArticle={library[0][4]}></LibraryItem>}
+                </Col>
+                <Col sm={4}>
+                    {library[0].length >= 3 && Object.keys(library[0][2]).length !== 0  &&<LibraryItem  newsArticle={library[0][2]}></LibraryItem>}
+                    <br></br>
+                    {library[0].length >= 6 && Object.keys(library[0][5]).length !== 0  &&<LibraryItem  newsArticle={library[0][5]}></LibraryItem>}
+                </Col>
+              </Row>}
+            </div> */}
+
+        </div>        
       </AwesomeSlider>
     )
 }

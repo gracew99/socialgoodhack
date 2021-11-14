@@ -112,6 +112,37 @@ app.post('/user/journals/:id', (req, res) => {
             }
         })
   })
+  app.post('/user/library/:id', (req, res) => {
+     
+    const id = req.params.id;
+    console.log(req.body.newsArticle)
+    
+    UserJournals.updateOne({id:id}, {$push: {library: req.body.newsArticle}}, (err, data) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            console.log(data)
+            res.status(201).send(data)
+        }
+    })
+
+})
+
+app.get('/user/library/:id', (req, res) => {
+     
+    const id = req.params.id;
+    
+    UserJournals.find({id:id}, (err, data) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            console.log(data[0])
+            res.status(201).send(data[0].library)
+        }
+    })
+
+})
+
 
 
 
