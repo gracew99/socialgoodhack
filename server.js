@@ -25,7 +25,6 @@ mongoose.connect(connection_url, {
     useUnifiedTopology: true
 })
 
-// register a new debate
 app.post('/user/journals/:id', (req, res) => {
     const id = req.params.id;
     console.log(id);
@@ -54,8 +53,7 @@ app.post('/user/journals/:id', (req, res) => {
                 // send data to browser
                 // res.send(dataToSend)
                 console.log(dataToSend)
-                dataToSend = dataToSend.substring(1,dataToSend.length-2);
-                dataToSend = dataToSend.split(", ");
+                // dataToSend = dataToSend.split(", ");
                 console.log(dataToSend)
                 UserJournals.updateOne({id:id}, {$push: {keywords: dataToSend}}, (err, data) => {
                     if (err){
