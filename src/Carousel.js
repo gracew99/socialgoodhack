@@ -10,6 +10,15 @@ import NewsFront from './NewsFront';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import LibraryItem from '../src/Library';
+import {
+  FacebookShareCount,
+  TwitterIcon,
+  WhatsappIcon,
+  EmailIcon,
+  LinkedinIcon,
+  FacebookMessengerIcon,
+  RedditIcon
+} from "react-share";
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
 const mic = new SpeechRecognition()
 mic.continuous = true
@@ -20,9 +29,9 @@ const MySwal = withReactContent(Swal)
 const phrase1 = "I am loved and valued"
 const phrase2 = "I am thankful for my life"
 const phrase3 = "Today is going to be a great day"
-var color1 = 'white';
-var color2 = 'white';
-var color3 = 'white';
+var color1 = '#FAFAFA';
+var color2 = '#FAFAFA';
+var color3 = '#FAFAFA';
 
 export default function Carousel() {
     const [isListening, setIsListening] = useState(false)
@@ -225,29 +234,38 @@ export default function Carousel() {
     return (
       // onTransitionRequest={onClick}
       <AwesomeSlider onTransitionRequest={onClick}> 
-        <div style={{backgroundColor: "#282c34"}}>
-          <h1>Daily Journal</h1>
+        <div style={{backgroundColor: "#bd4f6c", backgroundImage: "linear-gradient(326deg, #bd4f6c 0%, #d7816a 74%)"}}>
+          <h1 style={{color: "#F7D08A"}}>Daily Journal</h1>
           <br/>
-          <div style={{ padding: "1%", borderStyle: "solid", borderColor: "white", width: "1000px", height: "400px"}}>
+          <div style={{ padding: "1%", borderStyle: "solid", borderColor: "#F7D08A", width: "1000px", height: "400px"}}>
             <div style={{height: "100%"}}>              
                 <Editor editorState={editorState} onChange={setEditorState} />
             </div>
           <br/>
           </div>          
         </div>
-        <div style={{backgroundColor: "#282c34"}}> 
-          <p style={{color: color1}}>{phrase1}</p>
-          <p style={{color: color2}}>{phrase2}</p>
-          <p style={{color: color3}}>{phrase3}</p>
-          {isListening ? <span>🎙️</span> : <span></span>}
-          <button style={{marginRight: "10px"}} onClick={() => setIsListening(prevState => !prevState)}>Start/Stop</button>
-          <button style={{marginLeft: "10px"}} onClick={() => {setNote(null); setIsListening(false)}}>Submit</button>
-          <p>{note}</p>
+        <div style={{backgroundColor: "#bd4f6c", backgroundImage: "linear-gradient(326deg, #bd4f6c 0%, #d7816a 74%)"}}> 
+          <h1 style={{color: "#F7D08A"}}>Daily Encouragement</h1>
+          <br></br>
+          <div style={{ padding: "1%", width: "1000px", height: "400px"}}>
+            <div style={{height: "100%"}}>              
+                <p style={{fontSize: "0.8em", color: color1}}>{phrase1}</p>
+                <p style={{fontSize: "0.8em",color: color2}}>{phrase2}</p>
+                <p style={{fontSize: "0.8em",color: color3}}>{phrase3}</p>
+                <br></br>
+                {isListening ? <span>🎙️</span> : <span></span>}
+                <button style={{height: "0.8em", marginRight: "10px"}} onClick={() => setIsListening(prevState => !prevState)}><p style={{fontSize: "0.5em"}}>Start/Stop</p></button>
+                <button style={{height: "0.8em", marginLeft: "10px"}} onClick={() => {setNote(null); setIsListening(false)}}><p style={{fontSize: "0.5em"}}>Submit</p></button>
+                <p>{note}</p>
+            </div>
+          <br/>
+          </div> 
+          
           
         </div>
         
-        <div style={{backgroundColor: "#282c34"}}>
-          <h1 style={{marginBottom:"25px"}}>Today's Happy Feed</h1>
+        <div style={{backgroundColor: "#bd4f6c", backgroundImage: "linear-gradient(326deg, #bd4f6c 0%, #d7816a 74%)"}}>
+          <h1 style={{marginBottom:"25px", color: "#F7D08A"}}>Today's Happy Feed</h1>
 
           {newsArticles && newsArticles.length >= 6 && <Container>
             <Row>
@@ -270,8 +288,8 @@ export default function Carousel() {
           </Container>}
             
         </div>
-        <div style={{backgroundColor: "#282c34"}}>
-            <h1>Saved Media</h1>
+        <div style={{backgroundColor: "#bd4f6c", backgroundImage: "linear-gradient(326deg, #bd4f6c 0%, #d7816a 74%)"}}>
+            <h1 style={{color: "#F7D08A"}}>Saved Media</h1>
             {/* {console.log(library[0])}
             {library[0] !== undefined && library[0].length > 0 &&  library[0].map(item => {
               console.log("hUH");
@@ -294,6 +312,16 @@ export default function Carousel() {
                     {library[0].length >= 5 && Object.keys(library[0][4]).length !== 0  &&<LibraryItem newsArticle={library[0][4]}></LibraryItem>}
                     {library[0].length >= 6 && Object.keys(library[0][5]).length !== 0  &&<LibraryItem  newsArticle={library[0][5]}></LibraryItem>}
 
+              </div>
+              <div >
+
+                  <FacebookShareCount/>
+                  <TwitterIcon size={28}></TwitterIcon>
+                  <WhatsappIcon size={28}></WhatsappIcon>
+                  <EmailIcon size={28}></EmailIcon>
+                  <LinkedinIcon size={28}></LinkedinIcon>
+                  <FacebookMessengerIcon size={28}></FacebookMessengerIcon>
+                  <RedditIcon size={28}></RedditIcon>  
               </div>
             </div>}
             {/* <div style={{color: "pink"}}>

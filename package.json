@@ -25,6 +25,7 @@
     "react-loading-overlay": "^1.0.1",
     "react-responsive-carousel": "^3.2.22",
     "react-scripts": "4.0.3",
+    "react-share": "^4.4.0",
     "slate": "^0.70.0",
     "slate-history": "^0.66.0",
     "slate-react": "^0.70.0",

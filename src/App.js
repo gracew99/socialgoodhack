@@ -17,9 +17,11 @@ function App() {
 
 
   return (
-    <div className="App">
-      <header className="App-header">
+    <div style={{margin:"0"}} className="App">
+      <header style={{}} className="App-header">
         {/* Today's Positive News Feed */}
+        <h1 style={{fontSize: "2em", color: "#bd4f6c"}}>DayOne</h1>
+
         
       {/* {news.map(article => <p>ARTICLE: {article}</p>)} */}
       <Carousel></Carousel>
