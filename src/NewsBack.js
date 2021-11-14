@@ -4,8 +4,11 @@ import './App.css';
 function NewsFront(props) {
 
   return (
-    <div style={{fontSize: "0.5em"}} onClick={props.handleClick}>
-        <p>{props.newsArticle.description.substring(0, 500)}</p>
+    <div style={{fontSize: "0.5em"}}>
+        <p>{props.newsArticle.description}</p>
+        <p>By: {props.newsArticle.author} from {props.newsArticle.source}</p>
+        <p>Positivity Score: {props.newsArticle.score}</p>
+        <a href={props.newsArticle.url}>Read Full Story</a>
     </div>
   );
 }

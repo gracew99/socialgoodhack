@@ -1,19 +1,19 @@
 import React from "react";
 import './App.css';
+import Card from 'react-bootstrap/Card';
 
 function NewsFront(props) {
 
   return (
-    <div onClick={props.handleClick}>
-        <img style={{width: "70%"}} src={props.newsArticle.urlToImage} alt="img"/>
-        <div style={{lineHeight: "1.5", fontSize: "0.7em"}}>
-        <p>{props.newsArticle.title}</p>
+    <Card style={{ width: '18rem', height: '21.5rem', color: "black" }}>
+      <Card.Body style={{backgroundImage: `url("https://media.istockphoto.com/photos/brown-recycled-paper-crumpled-texture-background-cream-old-vintage-picture-id1278709873?b=1&k=20&m=1278709873&s=170667a&w=0&h=I7KaFvQN4G7p6EjkFNfKDr-9RUsNUPV8vTVhCSdG_pQ=")`}}>
+        <Card.Title style={{fontWeight: "600"}}>{props.newsArticle.title}</Card.Title>
+        <div style={{display: "flex", flexDirection: "column", alignItems: "center"}} onClick={props.handleClick}>
+        <img style={{width: "100%"}} src={props.newsArticle.urlToImage} alt="img"/>
         </div>
-        <div style={{lineHeight: "0.7", fontSize: "0.5em"}}>
-        <p>By: {props.newsArticle.author}</p>
-        <p>Source: {props.newsArticle.source}</p>
-        </div>
-    </div>
+      </Card.Body>
+    </Card>
+    
   );
 }
 
