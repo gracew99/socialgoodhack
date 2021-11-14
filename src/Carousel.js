@@ -10,6 +10,7 @@ import NewsFront from './NewsFront';
 import NewsBack from './NewsBack';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
 const mic = new SpeechRecognition()
 mic.continuous = true
@@ -27,8 +28,7 @@ var color3 = 'white';
 export default function Carousel() {
     const [isListening, setIsListening] = useState(false)
     const [note, setNote] = useState(null)
-    const [done, setDone] = useState(false)
-
+ 
     useEffect(() => {
       handleListen()
     }, [isListening])
@@ -154,7 +154,7 @@ export default function Carousel() {
                 const keywordSet = new Set(keywords.data)
                 const keywordData = Array.from(keywordSet)
                 keywordData.forEach(keyword => {
-                  if (keyword === '') {
+                  if (keyword === '' || keyword === null) {
                     return;
                   }
                   console.log("now querying for ")
@@ -164,20 +164,24 @@ export default function Carousel() {
                     // console.log(keyword)
                     // console.log(response.data.articles);
                     const articles = response.data.articles;
-                    console.log(articles)
+                    // console.log(articles)
                     articles.forEach(async (article) => {
                       // console.log(article.content)
-                      // console.log(article.description)
+                      if (article.urlToImage === null ){
+                        console.log(article.content)
+                      }
+                      console.log(article.urlToImage)
                       const url1 = "/articleSentiment"
                       const params1 = {
                         description: article.description
                       }
                       await axios.post(url1, params1).then(sentiment => {
                         console.log(sentiment.data)
+                       
                         if (sentiment.data) {
                           const newArticle = {
                             title: article.title,
-                            urlToImage: article.urlToImage,
+                            urlToImage: article.urlToImage === null ? "https://i1.wp.com/oxsci.org/wp-content/uploads/2019/05/SMILE.png?fit=1024%2C1024&ssl=1" : article.urlToImage,
                             description: article.description,
                             author: article.author,
                             source: article.source.name,
@@ -219,12 +223,13 @@ export default function Carousel() {
           <p style={{color: color3}}>{phrase3}</p>
           {isListening ? <span>🎙️</span> : <span></span>}
           <button style={{marginRight: "10px"}} onClick={() => setIsListening(prevState => !prevState)}>Start/Stop</button>
-          <button style={{marginLeft: "10px"}} onClick={() => {setNote(null); setIsListening(false)}}>Clear</button>
+          <button style={{marginLeft: "10px"}} onClick={() => {setNote(null); setIsListening(false)}}>Submit</button>
           <p>{note}</p>
           
         </div>
         <div style={{backgroundColor: "#282c34"}} onClick={logLength}>
           <h1>Today's Positive News Feed</h1>
+
           {newsArticles && newsArticles.length >= 6 && <Container>
             <Row>
               <Col sm={4}>
@@ -238,9 +243,9 @@ export default function Carousel() {
                   <NewsFront handleClick={() => {handleClick1(newsArticles[3])}} newsArticle={newsArticles[3]}></NewsFront>
               </Col>
               <Col sm={4}>
-                  <NewsFront handleClick={() => {handleClick1(newsArticles[3])}} newsArticle={newsArticles[4]}></NewsFront>
+                  <NewsFront handleClick={() => {handleClick1(newsArticles[4])}} newsArticle={newsArticles[4]}></NewsFront>
                   <br></br>
-                  <NewsFront handleClick={() => {handleClick1(newsArticles[4])}} newsArticle={newsArticles[5]}></NewsFront>
+                  <NewsFront handleClick={() => {handleClick1(newsArticles[5])}} newsArticle={newsArticles[5]}></NewsFront>
               </Col>
             </Row>
           </Container>}

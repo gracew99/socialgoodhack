@@ -4,7 +4,7 @@ from keybert import KeyBERT
 
 kw_model = KeyBERT()
 keywords = kw_model.extract_keywords(sys.argv[1])
-print(keywords[0])
+print(keywords[0][0])
 # print('hi')
 # from rake_nltk import Rake
 # r = Rake()

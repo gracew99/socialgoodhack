@@ -61,8 +61,9 @@ app.post('/user/journals/:id', (req, res) => {
                         res.status(500).send(err)
                         console.log(err)
                     } else{
-                        console.log("OK")
+                        console.log("OK!")
                         const copiedData1 = JSON.parse(JSON.stringify(data));
+                        console.log(copiedData1)
                         res.status(201).send(copiedData1)
                     }
                 })
